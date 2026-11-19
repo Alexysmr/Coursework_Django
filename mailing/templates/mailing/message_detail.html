@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Сервис рассылок. Детали сообщения.</title>{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">{{ message.title }}</h2>
+    <div class="card mb-3">
+        <div class="card-body">
+            <p><strong>Сообщение:</strong></p>
+            <p class="border p-2 bg-light">{{ message.message_body }}</p>
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        {% if message.owner == request.user %}
+            <a href="{% url 'mailing:message_update' message.pk %}" class="btn btn-warning">Редактировать</a>
+            <a href="{% url 'mailing:message_confirm_delete' message.pk %}" class="btn btn-danger">Удалить</a>
+        {% endif %}
+        <a href="{% url 'mailing:messages' %}" class="btn btn-secondary">Назад к списку</a>
+    </div>
+</div>
+{% endblock %}

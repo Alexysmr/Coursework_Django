@@ -1,0 +1,94 @@
+[
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "managers",
+    "permissions": [
+      [
+        "can_view_all_clients",
+        "clients",
+        "client"
+      ],
+      [
+        "can_stop_mailing",
+        "mailing",
+        "mailing"
+      ],
+      [
+        "can_view_all_mailings",
+        "mailing",
+        "mailing"
+      ],
+      [
+        "can_block_user",
+        "users",
+        "profile"
+      ],
+      [
+        "can_see_users",
+        "users",
+        "profile"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$JyMiXZKweqEo8QnE8Le2Eu$QEYnNMHxvOwCybf8PMP3aYNVzu7CHJuY+lIbGk7pEx4=",
+    "last_login": "2026-11-19T07:33:14.590Z",
+    "is_superuser": true,
+    "username": "Superuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-10-25T07:05:49.539Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$1Twr2vI9nhFG5kl7Yyypif$CRsH/jceFILYGujs9n+L7V9ATsICYXeczt4StlJGjpo=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Germes",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-03T06:11:21Z",
+    "groups": [
+      [
+        "managers"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$YnzOOrf5An0z9dYBlGitk7$PxFv/mj/QtipjK90PtVoekUL+ujsHAhNwfWsVeFI7OE=",
+    "last_login": "2026-11-19T07:32:54.055Z",
+    "is_superuser": false,
+    "username": "Apollo",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-03T06:12:20Z",
+    "groups": [
+      [
+        "managers"
+      ]
+    ],
+    "user_permissions": []
+  }
+}
+]

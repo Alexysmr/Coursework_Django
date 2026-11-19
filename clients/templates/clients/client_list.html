@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Сервис рассылок. Клиенты.</title>{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="mb-3 ms-3 mt-3 text-center">
+        <a href="{% url 'clients:client_create' %}" class="ms-3 btn btn-primary">Создать запись о клиенте</a>
+    </div>
+    {% for client in clients %}
+        <div class="card mb-3 client-item" data-id="{{ client.id }}">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>Email:</strong> {{ client.email }} <strong>Ф.И.О.:</strong> {{ client.surname }} {{ client.name }} {{ client.patronymic }}
+                </div>
+                <div class="client-link">
+                    <a href="{% url 'clients:client_detail' client.pk %}" class="text-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <h5>Пока нет ни одной записи клиентов</h5>
+    {% endfor %}
+    {% if is_paginated %}
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
+                {% endif %}
+                    <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+<script>
+document.querySelectorAll('.client-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.querySelectorAll('.client-item').forEach(i => i.classList.remove('bg-light'));
+        this.classList.add('bg-light');
+        document.querySelectorAll('.client-link').forEach(link => link.style.display = 'none');
+        this.querySelector('.client-link').style.display = 'block';
+    });
+});
+</script>
+{% endblock %}

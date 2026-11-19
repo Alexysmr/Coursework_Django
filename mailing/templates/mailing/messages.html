@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Сервис рассылок. Список сообщений.</title>{% endblock %}
+
+{% block style %}
+<style>
+    .message-body-full { display: none; margin-top: 10px; }
+    .message-actions { display: none; margin-top: 10px; }
+    .message-item { border-bottom: 1px solid #ddd; padding: 10px 0; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="mb-3 text-center">
+        <a href="{% url 'mailing:message_create' %}" class="btn btn-primary">Создать сообщение</a>
+    </div>
+
+    {% for message in messages_data %}
+        <div class="message-item" data-id="{{ message.id }}">
+            <h5 class="message-title" style="cursor: pointer;">
+                {{ message.title }}
+            </h5>
+            <p class="message-body-short">
+                {{ message.message_body|truncatechars:150 }}
+                <span class="text-primary" style="cursor: pointer;" onclick="toggleMessage({{ message.id }})">... читать</span>
+            </p>
+            <div id="full-{{ message.id }}" class="message-body-full">
+                <p>{{ message.message_body|linebreaks }}</p>
+                <div class="message-actions">
+                    {% if message.owner == request.user %}
+                        <a href="{% url 'mailing:message_update' message.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+                        <a href="{% url 'mailing:message_confirm_delete' message.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                    {% endif %}
+                    <button class="btn btn-secondary btn-sm" onclick="toggleMessage({{ message.id }})">Свернуть</button>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Сообщений пока нет</p>
+    {% endfor %}
+    {% if is_paginated %}
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
+                {% endif %}
+                <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+
+<script>
+function toggleMessage(id) {
+    const full = document.getElementById('full-' + id);
+    const short = full.previousElementSibling;
+    const actions = full.querySelector('.message-actions');
+
+    if (full.style.display === 'none' || full.style.display === '') {
+        full.style.display = 'block';
+        short.style.display = 'none';
+        actions.style.display = 'block';
+    } else {
+        full.style.display = 'none';
+        short.style.display = 'block';
+        actions.style.display = 'none';
+    }
+}
+</script>
+{% endblock %}

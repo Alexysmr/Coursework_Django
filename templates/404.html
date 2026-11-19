@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404. Ошибка</title>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container mt-4">
+    <div class="mt-5 text-center">
+        <h3>Ошибка 404. Такой страницы нет.</h3>
+        <a href="{% url 'mailing:index' %}" class="btn btn-primary">Вернуться на главную</a>
+        <a href="{% url 'contacts:index' %}" class="btn btn-primary">Контакты</a>
+    </div>
+</div>
+</body>
+</html>

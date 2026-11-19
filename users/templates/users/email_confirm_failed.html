@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ошибка регистрации</title>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container mt-5 text-center">
+    <h3>Ошибка регистрации</h3>
+    <p>Данная ссылка подтверждения регистрации недействительна. Пожалуйста, зарегистрируйтесь заново.</p>
+    <a href="{% url 'users:registration' %}" class="btn btn-primary">Зарегистрироваться заново</a>
+    <a href="{% url 'users:login' %}" class="btn btn-secondary">На страницу входа</a>
+</div>
+</body>
+</html>

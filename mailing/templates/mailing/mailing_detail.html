@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Сервис рассылок. Детали рассылки</title>{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- История попыток -->
+    <h5 class="mt-4">История попыток</h5>
+    <ul class="list-group mb-3">
+        {% for attempt in mailing.attempts.all|dictsortreversed:"attempt_time" %}
+            <li class="list-group-item">
+                <strong>{{ attempt.attempt_time|date:"d.m.Y H:i" }}</strong> —
+                <span class="{% if attempt.status == 'success' %}text-success{% else %}text-danger{% endif %}">
+                    {{ attempt.get_status_display }}
+                </span><br>
+                <small class="text-muted">Ответ сервера: {{ attempt.server_response }}</small>
+            </li>
+        {% empty %}
+            <li class="list-group-item text-muted">Попыток ещё не было</li>
+        {% endfor %}
+    </ul>
+    <h2 class="mb-3">{{ mailing.message.title }}</h2>
+
+    <!-- Информация о рассылке -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <p><strong>Статус:</strong> {{ mailing.get_status_sending_display }}
+                {% if mailing.stopped_by %}(Остановлена {{ mailing.stopped_by }}){% endif %}
+            </p>
+            <p><strong>Период:</strong> {{ mailing.start_time_mailing|date:"d.m.Y H:i" }} – {{ mailing.stop_time_mailing|date:"d.m.Y H:i" }}</p>
+            <p><strong>Сообщение:</strong></p>
+            <p class="border p-2 bg-light">{{ mailing.message.message_body|linebreaks }}</p>
+        </div>
+    </div>
+
+    <!-- Список получателей -->
+    <h5>Получатели</h5>
+    <ul class="list-group mb-3">
+        {% for client in mailing.clients.all %}
+            <li class="list-group-item">{{ client.email }} ({{ client.name }} {{ client.surname }})</li>
+        {% empty %}
+            <li class="list-group-item text-muted">Нет получателей</li>
+        {% endfor %}
+    </ul>
+    <!-- Кнопки действий -->
+    <div class="d-flex gap-2">
+        {% if can_stop and mailing.status_sending != 'completed' and not mailing.stopped_by %}
+            <form method="post" action="{% url 'mailing:mailing_stop' mailing.pk %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Остановить</button>
+            </form>
+        {% endif %}
+        {% if mailing.owner == request.user or request.user.is_superuser %}
+            <a href="{% url 'mailing:mailing_update' mailing.pk %}" class="btn btn-warning">Редактировать</a>
+            <a href="{% url 'mailing:mailing_delete' mailing.pk %}" class="btn btn-danger">Удалить</a>
+        {% endif %}
+        <a href="{% url 'mailing:index' %}" class="btn btn-secondary">Назад</a>
+        {% if mailing.owner == request.user %}
+            <form method="post" action="{% url 'mailing:mailing_send' mailing.pk %}">
+                {% csrf_token %}
+                {% if mailing.status_sending == 'completed' %}
+                    <button type="submit" class="ms-3 btn btn-info disabled">Рассылка завершена</button>
+                {% elif mailing.status_sending == 'created' %}
+                    <button type="submit" class="ms-3 btn btn-secondary disabled">Время рассылки ещё не наступило</button>
+                {% else %}
+                    <button type="submit" class="ms-3 btn btn-success">Отправить</button>
+                {% endif %}
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

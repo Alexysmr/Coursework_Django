@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SkyPro{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+    {% block style %}{% endblock %}
+</head>
+<body>
+
+<div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+    <!-- Слева: навигация -->
+    <div>
+        {% if request.resolver_match.url_name == 'index' and request.resolver_match.app_name == 'contacts' %}
+            <a href="{% url 'mailing:index' %}" class="ms-2 btn btn-primary">На главную</a>
+            <span class="btn btn-secondary disabled">Контакты</span>
+        {% elif request.resolver_match.url_name == 'index' and request.resolver_match.app_name == 'mailing' %}
+            <span class="btn btn-secondary disabled">На главную</span>
+            <a href="{% url 'contacts:index' %}" class="btn btn-primary">Контакты</a>
+        {% else %}
+            <a href="{% url 'mailing:index' %}" class="ms-2 btn btn-primary">На главную</a>
+            <a href="{% url 'contacts:index' %}" class="btn btn-primary">Контакты</a>
+        {% endif %}
+    </div>
+
+    <!-- Справа: пользователь и выход -->
+    <div>
+        {% if user.is_authenticated %}
+            <span class="me-2">👤: {{ user.username }}</span>
+            <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Выйти</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Контент -->
+<div class="container mt-4">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- Футер -->
+<footer class="px-3 py-2 border-top mt-4">
+    <div class="ms-2">
+        SkyPro
+        <small class="d-block text-muted">&copy; 2026</small>
+    </div>
+</footer>
+
+</body>
+</html>

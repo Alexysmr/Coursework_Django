@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h4 class="text-center mb-4">Регистрация</h4>
+            <form method="post" >
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    {{ field }}
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {% if field.errors %}
+                    <div class="text-danger small">
+                        {{ field.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary w-100">Сохранить</button>
+            </form>
+            <div class="text-center mt-3">
+                <a href="{% url 'login' %}">Вернуться на вход</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

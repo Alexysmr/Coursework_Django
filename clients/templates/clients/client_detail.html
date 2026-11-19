@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Сервис рассылок. Детали о клиенте.</title>{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card mb-3">
+        <div>
+            <strong>Email:</strong> {{ client_data.email }} <br/>
+            Ф.И.О.: {{ client_data.surname }} {{ client_data.name }} {{ client_data.patronymic }} <br/>
+            Комментарии: {{ client_data.comments }}
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        {% if client_data.owner == request.user %}
+            <a href="{% url 'clients:client_update' client_data.pk %}" class="btn btn-warning">Редактировать</a>
+            <a href="{% url 'clients:client_delete' client_data.pk %}" class="btn btn-danger">Удалить</a>
+        {% endif %}
+        <a href="{% url 'clients:index' %}" class="btn btn-secondary">Назад к списку</a>
+    </div>
+</div>
+{% endblock %}
