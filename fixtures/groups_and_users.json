@@ -36,7 +36,7 @@
   "model": "auth.user",
   "fields": {
     "password": "pbkdf2_sha256$1200000$JyMiXZKweqEo8QnE8Le2Eu$QEYnNMHxvOwCybf8PMP3aYNVzu7CHJuY+lIbGk7pEx4=",
-    "last_login": "2026-11-19T07:33:14.590Z",
+    "last_login": "2026-11-19T08:06:31.624Z",
     "is_superuser": true,
     "username": "Superuser",
     "first_name": "",
@@ -52,8 +52,8 @@
 {
   "model": "auth.user",
   "fields": {
-    "password": "pbkdf2_sha256$1200000$1Twr2vI9nhFG5kl7Yyypif$CRsH/jceFILYGujs9n+L7V9ATsICYXeczt4StlJGjpo=",
-    "last_login": null,
+    "password": "pbkdf2_sha256$1200000$GwLvhRPa9x5Y8GTHcB07cM$UjMf4MHahYkVteRowp0pjJeVUYmd4kslg3KV1NlaIw4=",
+    "last_login": "2026-11-19T09:18:32.944Z",
     "is_superuser": false,
     "username": "Germes",
     "first_name": "",
